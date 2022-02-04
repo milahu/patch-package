@@ -1,5 +1,6 @@
 import fs from "fs-extra"
 import { join } from "./path"
+import path from "path"
 import chalk from "chalk"
 import process from "process"
 import findWorkspaceRoot from "find-yarn-workspace-root"
@@ -37,6 +38,28 @@ package-lock.json if you don't need it
   )
 }
 
+function isFileInPnpmRoot(rootPath: string, filename: string): boolean {
+  const osRoot = path.parse(rootPath).root
+
+  let currentDir = rootPath
+
+  while (currentDir !== osRoot) {
+    if (fs.existsSync(path.join(currentDir, "pnpm-workspace.yaml"))) {
+      // Found workspace root. If the sought file is in the workspace root,
+      // we're good.
+      if (fs.existsSync(path.join(currentDir, filename))) {
+        return true
+      } else {
+        return false
+      }
+    } else {
+      currentDir = path.resolve(currentDir, "..")
+    }
+  }
+
+  return false
+}
+
 export const detectPackageManager = (
   appRootPath: string,
   overridePackageManager: PackageManager | null,
@@ -64,7 +87,8 @@ export const detectPackageManager = (
     }
   } else if (yarnLockExists || findWorkspaceRoot()) {
     return "yarn"
-  } else if (fs.existsSync(join(appRootPath, "pnpm-lock.yaml"))) {
+  } else if (isFileInPnpmRoot(appRootPath, "pnpm-lock.yaml")) {
+    // (fs.existsSync(join(appRootPath, "pnpm-lock.yaml"))) {
     return "pnpm"
   } else {
     printNoLockfilesError()
