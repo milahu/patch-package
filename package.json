@@ -20,6 +20,7 @@
     "format": "prettier --no-semi --write --trailing-comma=all src{/**,}/*.ts integration-tests{/**,}/*.ts property-based-tests{/**,}/*.ts",
     "prepack": "rimraf dist/**/*.test.js",
     "test": "./run-tests.sh --runInBand",
+    "publish": "npm publish --access public",
     "prepare": "npm run build"
   },
   "husky": {
