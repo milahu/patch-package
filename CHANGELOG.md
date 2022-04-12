@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.4.9
+
+- detect pnpm workspaces https://github.com/ds300/patch-package/pull/302#issuecomment-1092299114
+
+## 6.4.8
+
+- add pnpm support https://github.com/ds300/patch-package/pull/302
+
 ## 6.4.7
 
 - Use npm i --force when creating patches
