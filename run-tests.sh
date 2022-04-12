@@ -3,6 +3,8 @@ set -e
 
 export CI=true
 
+# yarn 2 throws:
+# Internal Error: patch-package@workspace:.: This package doesn't seem to be present in your lockfile; try to make an install to update your resolutions
 echo checking yarn version ...
 yarn_version_major=$(yarn --version | cut -d. -f1)
 if [[ "$yarn_version_major" != 1 ]]; then
