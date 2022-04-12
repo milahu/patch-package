@@ -1,1 +1,15 @@
-you must use locked version from yarn.lock, or build will fail
+to build patch-package,
+you must install node_modules from from yarn.lock,
+otherwise "npm run build" will fail
+
+with pnpm:
+
+  pnpm import yarn.lock
+  pnpm install
+
+
+
+tests require yarn version 1
+
+  npm i -g yarn@1
+  yarn --version
