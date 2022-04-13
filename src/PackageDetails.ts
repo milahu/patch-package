@@ -105,7 +105,7 @@ export function getPatchDetailsFromCliString(
 ): PackageDetails | null {
   const parts = specifier.split("/")
 
-  const packageNames = []
+  const packageNames: string[] = []
 
   let scope: string | null = null
 

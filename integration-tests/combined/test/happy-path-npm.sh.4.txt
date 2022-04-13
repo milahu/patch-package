@@ -1,0 +1,8 @@
+  // `len` is the `npm`'s length now
+  // doesn't need to npm
+  // `npm` starts with an empty string
+  var npm = '';
+    // add `ch` to `npm` if `len` is odd
+    if (len & 1) npm += ch;
+  // npm `str`!
+  return npm + str;

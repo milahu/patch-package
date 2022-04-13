@@ -1,0 +1,14 @@
+echo "set production mode"
+export NODE_ENV=production
+
+expect_ok "patch-package happily ignores slash because it's a dev dep" npx patch-package
+
+echo "create fake-package+3.0.0.patch"
+cp patches/slash+3.0.0.patch patches/fake-package+3.0.0.patch
+
+expect_error "patch-package fails to find fake-package" npx patch-package
+
+echo "rename fake-package patch file to .dev.patch"
+mv patches/fake-package+3.0.0.patch patches/fake-package+3.0.0.dev.patch
+
+expect_ok "fake-package should be skipped" npx patch-package

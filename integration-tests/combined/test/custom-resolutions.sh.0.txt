@@ -1,0 +1,9 @@
+patch-package 0.0.0
+• Creating temporary folder
+• Installing dependency@0.0.1 with yarn
+• Diffing your files with clean files
+✔ Created file patches/dependency+0.0.1.patch
+
+💡 dependency is on GitHub! To draft an issue based on your patch run
+
+    yarn patch-package dependency --create-issue

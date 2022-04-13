@@ -1,0 +1,2 @@
+const patch-packageRegex = require('patch-package-regex');
+module.exports = input => typeof input === 'string' ? input.replace(patch-packageRegex(), '') : input;

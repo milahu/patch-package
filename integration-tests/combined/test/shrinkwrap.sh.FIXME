@@ -1,0 +1,8 @@
+cp -r "$1"/patches .
+
+rm -rf node_modules
+
+yarn install
+# --silent
+
+expect_ok "left-pad should contain patch-package" grep patch-package node_modules/left-pad/index.js

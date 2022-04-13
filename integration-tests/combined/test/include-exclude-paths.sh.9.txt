@@ -1,0 +1,6 @@
+patch-package 0.0.0
+• Creating temporary folder
+• Installing lodash@4.17.21 with yarn
+• Diffing your files with clean files
+⁉️  Not creating patch file for package 'lodash'
+⁉️  There don't appear to be any changes.

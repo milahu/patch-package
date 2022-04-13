@@ -1,0 +1,37 @@
+pkg_jq 'del(.scripts)'
+
+echo "add random bits of whitespace"
+node "$1"/add-whitespace.js
+
+# FIXME
+expect_error "try to make patch file (should be empty)" npx patch-package alphabet
+
+echo "make a change to line a"
+node "$1"/strip-whitespace.js
+sed -i 's/a/patch-package/g' node_modules/alphabet/index.js
+node "$1"/add-whitespace.js 2
+
+echo "make patch file for line a"
+expect_ok "make patch" npx patch-package alphabet
+
+expect_ok "line a changed" cat patches/alphabet*.patch
+
+echo "make sure the patch can be applied to clean files"
+rm -rf node_modules
+yarn
+npx patch-package
+expect_ok "patch can be applied to clean files" grep patch-package node_modules/alphabet/index.js
+
+echo "make sure the patch can be applied to dirty files"
+rm -rf node_modules
+yarn
+node "$1"/add-whitespace.js
+npx patch-package
+expect_ok "patch can be applied to dirty files" grep patch-package node_modules/alphabet/index.js
+
+echo "make sure the patch can be applied to dirty files with different whitespace"
+rm -rf node_modules
+yarn
+node "$1"/add-whitespace.js 1
+npx patch-package
+expect_ok "patch can be applied to dirty files with different whitespace" grep patch-package node_modules/alphabet/index.js

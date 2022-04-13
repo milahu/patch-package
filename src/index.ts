@@ -46,7 +46,7 @@ import { makePatch } from "./makePatch"
 import { makeRegExp } from "./makeRegExp"
 import { detectPackageManager } from "./detectPackageManager"
 import { normalize, sep } from "path"
-import slash = require("slash")
+import slash from "slash"
 import isCi from "is-ci"
 
 if (argv.version) {

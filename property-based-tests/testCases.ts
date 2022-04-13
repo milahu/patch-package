@@ -51,7 +51,7 @@ function makeFileName(ext?: boolean) {
 
 function makeFilePath() {
   const numParts = Math.floor(Math.random() * 3)
-  const parts = []
+  const parts: string[] = []
   for (let i = 0; i < numParts; i++) {
     parts.push(makeFileName())
   }

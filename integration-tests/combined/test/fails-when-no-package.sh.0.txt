@@ -1,0 +1,5 @@
+patch-package 0.0.0
+Applying patches...
+Error: Patch file found for package left-pad which is not present at node_modules/left-pad
+---
+patch-package finished with 1 error(s).

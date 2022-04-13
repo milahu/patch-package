@@ -1,0 +1,9 @@
+patch-package 0.0.0
+• Creating temporary folder
+• Installing @types/angular@1.8.4 with yarn
+• Diffing your files with clean files
+✔ Created file patches/@microsoft+mezzurite-core++@types+angular+1.8.4.patch
+
+💡 @types/angular is on GitHub! To draft an issue based on your patch run
+
+    yarn patch-package @microsoft/mezzurite-core/@types/angular --create-issue

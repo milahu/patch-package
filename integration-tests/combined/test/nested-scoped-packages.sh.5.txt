@@ -1,0 +1,88 @@
+// Project: http://patch-packagejs.org
+declare var patch-package: patch-package.IAngularStatic;
+export as namespace patch-package;
+export = patch-package;
+import ng = patch-package;
+// ng module (patch-package.js)
+declare namespace patch-package {
+    // see http://docs.patch-packagejs.org/api
+         * Use this function to manually start up patch-package application.
+         * @param element DOM element which is the root of patch-package application.
+         * If jQuery is available, patch-package.element is an alias for the jQuery function. If jQuery is not available, patch-package.element delegates to Angular's built-in subset of jQuery, called "jQuery lite" or "jqLite."
+         * Deeply extends the destination object dst by copying own enumerable properties from the src object(s) to dst. You can specify multiple src objects. If you want to preserve original objects, you can do so by passing an empty object as the target: var object = patch-package.merge({}, object1, object2).
+         * The patch-package.module is a global place for creating, registering and retrieving Angular modules. All modules (patch-package core or 3rd party) that should be available to an application must be registered using this mechanism.
+         * If window.name contains prefix NG_DEFER_BOOTSTRAP! when patch-package.bootstrap is called, the bootstrap process will be paused until patch-package.resumeBootstrap() is called.
+    // see http://docs.patch-packagejs.org/api/patch-package.Module
+    // see http://docs.patch-packagejs.org/api/ng/type/$compile.directive.Attributes
+         * For further information check out the guide on @see https://docs.patch-packagejs.org/guide/directive#matching-directives
+     * see https://docs.patch-packagejs.org/api/ng/type/form.FormController
+    // see http://docs.patch-packagejs.org/api/ng/type/ngModel.NgModelController
+    // https://docs.patch-packagejs.org/api/ng/directive/ngModelOptions
+     * see https://docs.patch-packagejs.org/api/ng/type/$rootScope.Scope and https://docs.patch-packagejs.org/api/ng/service/$rootScope
+     * see https://docs.patch-packagejs.org/api/ng/directive/ngRepeat
+    // see http://docs.patch-packagejs.org/api/ng/service/$window
+    // see http://docs.patch-packagejs.org/api/ng/service/$timeout
+    // see http://docs.patch-packagejs.org/api/ng/service/$interval
+     * see https://docs.patch-packagejs.org/api/ng/service/$filter
+     * see https://docs.patch-packagejs.org/api/ng/provider/$filterProvider
+         * @param name Name of the filter function, or an object map of filters where the keys are the filter names and the values are the filter factories. Note: Filter names must be valid patch-package Expressions identifiers, such as uppercase or orderBy. Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace your filters, then you can use capitalization (myappSubsectionFilterx) or underscores (myapp_subsection_filterx).
+    // see http://docs.patch-packagejs.org/api/ng/service/$locale
+        // Check patch-package's i18n files for exemples
+    // see http://docs.patch-packagejs.org/api/ng/service/$log
+    // see http://docs.patch-packagejs.org/api/ng/provider/$logProvider
+    // see http://docs.patch-packagejs.org/api/ng/service/$parse
+    // see http://docs.patch-packagejs.org/api/ng/provider/$parseProvider
+     * see https://docs.patch-packagejs.org/api/ng/service/$location
+    // see http://docs.patch-packagejs.org/api/ng/service/$document
+    // see http://docs.patch-packagejs.org/api/ng/service/$exceptionHandler
+    // see http://docs.patch-packagejs.org/api/ng/service/$rootElement
+     * See http://docs.patch-packagejs.org/api/ng/service/$q
+    // see http://docs.patch-packagejs.org/api/ng/service/$anchorScroll
+     * see https://docs.patch-packagejs.org/api/ng/service/$cacheFactory
+     * see https://docs.patch-packagejs.org/api/ng/type/$cacheFactory.Cache
+    // see http://docs.patch-packagejs.org/api/ng/service/$compile
+    // see http://docs.patch-packagejs.org/api/ng/provider/$compileProvider
+         * See: https://docs.patch-packagejs.org/api/ng/provider/$compileProvider#onChangesTtl
+         * See: https://docs.patch-packagejs.org/api/ng/provider/$compileProvider#commentDirectivesEnabled
+         * See: https://docs.patch-packagejs.org/api/ng/provider/$compileProvider#cssClassDirectivesEnabled
+        * See: https://docs.patch-packagejs.org/api/ng/provider/$compileProvider#strictComponentBindingsEnabled
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#-controller-
+    // see http://docs.patch-packagejs.org/api/ng/service/$controller
+    // see http://docs.patch-packagejs.org/api/ng/provider/$controllerProvider
+     * see https://docs.patch-packagejs.org/api/ng/service/$xhrFactory
+     * see http://docs.patch-packagejs.org/api/ng/service/$http
+     * see http://docs.patch-packagejs.org/api/ng/service/$http#usage
+     * see http://docs.patch-packagejs.org/api/ng/service/$http#usage
+    // See the jsdoc for transformData() at https://github.com/patch-package/patch-package.js/blob/master/src/ng/http.js#L228
+    * https://docs.patch-packagejs.org/api/ng/service/$http#defaults
+    * https://docs.patch-packagejs.org/api/ng/service/$http#usage
+    * https://docs.patch-packagejs.org/api/ng/provider/$httpProvider The properties section
+         * @see {@link https://docs.patch-packagejs.org/api/ng/service/$http#transforming-requests-and-responses}
+         * @see {@link https://docs.patch-packagejs.org/api/ng/service/$http#setting-http-headers}
+    // see http://docs.patch-packagejs.org/api/ng/service/$httpBackend
+    // see http://docs.patch-packagejs.org/api/ng/service/$interpolate
+    // see http://docs.patch-packagejs.org/api/ng/provider/$interpolateProvider
+    // see http://docs.patch-packagejs.org/api/ng/service/$templateCache
+    // see http://docs.patch-packagejs.org/api/ng/service/$sce
+    // see http://docs.patch-packagejs.org/api/ng/provider/$sceProvider
+    // see http://docs.patch-packagejs.org/api/ng/service/$sceDelegate
+    // see http://docs.patch-packagejs.org/api/ng/provider/$sceDelegateProvider
+     * see http://docs.patch-packagejs.org/api/ng/service/$templateRequest
+    // see http://patch-packagejs.blogspot.com.br/2015/11/patch-packagejs-15-beta2-and-14-releases.html
+    // and http://toddmotto.com/exploring-the-patch-package-1-5-component-method/
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#life-cycle-hooks
+     * https://docs.patch-packagejs.org/guide/component
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#life-cycle-hooks
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#life-cycle-hooks
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#life-cycle-hooks
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#life-cycle-hooks
+     * https://docs.patch-packagejs.org/api/ng/service/$compile#life-cycle-hooks
+    // see http://docs.patch-packagejs.org/api/ng/provider/$compileProvider#directive
+    // and http://docs.patch-packagejs.org/guide/directive
+     * only those returned from patch-package.element.
+     * See: http://docs.patch-packagejs.org/api/patch-package.element
+    // AUTO module (patch-package.js)
+        // see http://docs.patch-packagejs.org/api/AUTO.$injector
+        // see http://docs.patch-packagejs.org/api/AUTO.$provide
+     * see https://docs.patch-packagejs.org/api/ng/service/$httpParamSerializer
+         * See https://docs.patch-packagejs.org/guide/filter#stateful-filters

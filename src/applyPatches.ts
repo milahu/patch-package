@@ -205,7 +205,7 @@ export function applyPatchesForApp({
     console.error(error)
   }
 
-  const problemsSummary = []
+  const problemsSummary: string[] = []
   if (warnings.length) {
     problemsSummary.push(chalk.yellow(`${warnings.length} warning(s)`))
   }

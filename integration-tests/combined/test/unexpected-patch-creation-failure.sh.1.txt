@@ -1,0 +1,20 @@
+patch-package 0.0.0
+• Creating temporary folder
+• Installing left-pad@1.1.1 with yarn
+• Diffing your files with clean files
+
+⛔️ ERROR
+        
+  patch-package was unable to read the patch-file made by git. This should not
+  happen.
+  
+  A diagnostic file was written to
+  
+    ./patch-package-error.json.gz
+  
+  Please attach it to a github issue
+  
+    https://github.com/ds300/patch-package/issues/new?title=New+patch+parse+failed&body=Please+attach+the+diagnostic+file+by+dragging+it+into+here+🙏
+  
+  Note that this diagnostic file will contain code from the package you were
+  attempting to patch.
