@@ -21,6 +21,40 @@ export function getPackageResolution({
   appPath: string
   appPackageJson: any
 }) {
+
+  if (isDebug) {
+    console.log(`getPackageResolution:`)
+    console.dir({
+      packageDetails, // dependency
+      packageManager,
+      appPath, // file: protocol versions are relative to appPath
+      appPackageJson, // parent package
+    })
+  }
+
+  const declaredVersion =
+    (appPackageJson.dependencies &&
+      appPackageJson.dependencies[packageDetails.name]) ||
+    (appPackageJson.devDependencies &&
+      appPackageJson.devDependencies[packageDetails.name])
+  if (isDebug) {
+    console.log(
+      `patch-package/getPackageResolution: declaredVersion = ${declaredVersion}`,
+    )
+  }
+
+  if (declaredVersion.startsWith('file:')) {
+    // supported by all managers
+    // resolve relative file path
+    const filePath = resolve(appPath, declaredVersion.slice("file:".length))
+    if (isDebug) {
+      console.log(`patch-package/getPackageResolution: resolved filePath ${filePath}`)
+    }
+    return {
+      version: `file:${filePath}`,
+    }
+  }
+
   if (packageManager === "yarn") {
     let lockFilePath = "yarn.lock"
     if (!existsSync(lockFilePath)) {
@@ -80,17 +114,6 @@ export function getPackageResolution({
     return { version: resolution }
   } else if (packageManager === "pnpm") {
     // WORKAROUND for pnpm bug? pnpm-lock.yaml says version 1.2.3 for linked packages, not link:../../path/to/package
-    const declaredVersion =
-      (appPackageJson.dependencies &&
-        appPackageJson.dependencies[packageDetails.name]) ||
-      (appPackageJson.devDependencies &&
-        appPackageJson.devDependencies[packageDetails.name])
-    if (isDebug) {
-      console.log(
-        `patch-package/getPackageResolution: declaredVersion = ${declaredVersion}`,
-      )
-    }
-
     // TODO validate: declaredVersion must not be wildcard
     return { version: declaredVersion }
 
