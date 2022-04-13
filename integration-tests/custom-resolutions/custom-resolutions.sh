@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "make changes to dependency/index.js"
 echo '// hello i am patch-package' > node_modules/dependency/index.js

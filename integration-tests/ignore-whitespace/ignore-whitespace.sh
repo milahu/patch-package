@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "add random bits of whitespace"
 node add-whitespace.js
@@ -18,7 +18,7 @@ fi
 
 echo "make a change to line a"
 node strip-whitespace.js
-npx replace 'a' 'patch-package' node_modules/alphabet/index.js
+sed -i 's/a/patch-package/g' node_modules/alphabet/index.js
 node add-whitespace.js 2
 
 echo "make patch file for line a"

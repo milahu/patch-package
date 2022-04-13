@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "add a file"
 echo "this is a new file" > node_modules/lodash/newFile.md

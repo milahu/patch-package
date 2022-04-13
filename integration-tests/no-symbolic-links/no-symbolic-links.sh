@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "make symbolic link"
 ln -s package.json node_modules/left-pad/package.parent.json

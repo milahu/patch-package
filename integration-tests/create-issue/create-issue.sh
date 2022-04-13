@@ -3,10 +3,11 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+stat node_modules/patch-package # force local install in runIntegrationTest.ts
+alias patch-package="npx patch-package"
 
 echo "modify left-pad"
-npx replace leftPad patch-package node_modules/left-pad/index.js
+sed -i 's/leftPad/patch-package/g' node_modules/left-pad/index.js
 
 echo "SNAPSHOT: patching left-pad prompts to submit an issue"
 patch-package left-pad

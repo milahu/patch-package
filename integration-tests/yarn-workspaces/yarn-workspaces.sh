@@ -4,22 +4,24 @@ set -e
 echo "tarball $1"
 echo "add patch-package to root"
 yarn add $1 --ignore-workspace-root-check
+stat node_modules/patch-package # force local install in runIntegrationTest.ts
+alias patch-package="npx patch-package"
 
 echo "set up postinstall scripts"
 node ./add-postinstall-commands.js package.json packages/a/package.json packages/b/package.json
 
 echo "modify hoisted left-pad"
-npx replace leftPad patch-package node_modules/left-pad/index.js
+sed -i 's/leftPad/patch-package/g' node_modules/left-pad/index.js
 
 echo "create patch file"
-yarn patch-package left-pad
+patch-package left-pad
 
 echo "modify unhoisted left-pad"
-npx replace leftPad patch-package packages/a/node_modules/left-pad/index.js
+sed -i 's/leftPad/patch-package/g' packages/a/node_modules/left-pad/index.js
 
 echo "create patch file"
 cd packages/a
-yarn patch-package left-pad
+patch-package left-pad
 
 echo "go back to root"
 cd ../../

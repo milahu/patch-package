@@ -3,10 +3,10 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "mutate words.js"
-npx replace words patch-packages node_modules/lodash/words.js
+sed -i 's/words/patch-packages/g' node_modules/lodash/words.js
 
 echo "patch-package includes words.js in a patch by default"
 patch-package lodash

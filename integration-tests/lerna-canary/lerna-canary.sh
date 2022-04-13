@@ -3,14 +3,14 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 # this test makes sure that we can patch packages with build metadata in their version strings e.g. 4.5.6+commitsha
 echo "Add @parcel/codeframe"
 yarn add @parcel/codeframe@2.0.0-nightly.137
 
 echo "replace codeframe with yarn in @parcel/codefram/src/codeframe.js"
-npx replace codeFrame patch-package node_modules/@parcel/codeframe/src/codeframe.js
+sed -i 's/codeFrame/patch-package/g' node_modules/@parcel/codeframe/src/codeframe.js
 
 echo "SNAPSHOT: making patch"
 patch-package @parcel/codeframe

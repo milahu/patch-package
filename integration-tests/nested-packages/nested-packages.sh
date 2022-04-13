@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "wrap-ansi=>string-width should not contain patch-package"
 if grep patch-package node_modules/wrap-ansi/node_modules/string-width/index.js ; then
@@ -11,7 +11,7 @@ if grep patch-package node_modules/wrap-ansi/node_modules/string-width/index.js 
 fi
 
 echo "edit wrap-ansi=>string-width"
-yarn replace width patch-package node_modules/wrap-ansi/node_modules/string-width/index.js 
+sed -i 's/width/patch-package/g' node_modules/wrap-ansi/node_modules/string-width/index.js 
 
 echo "SNAPSHOT: create the patch"
 patch-package wrap-ansi/string-width

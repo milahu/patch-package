@@ -3,13 +3,14 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+#alias patch-package="npx patch-package"
+alias patch-package="npx patch-package"
 
 echo "modify left-pad"
-npx replace leftPad patchPackage node_modules/left-pad/index.js
+sed -i 's/leftPad/patchPackage/g' node_modules/left-pad/index.js
 
 echo "force patch-package to fail"
-npx replace 'parsePatchFile\(' 'blarseBlatchBlile(' node_modules/patch-package/dist/makePatch.js
+sed -i 's/parsePatchFile/blarseBlatchBlile/g' node_modules/patch-package/dist/makePatch.js
 
 echo "there is no error log file"
 if ls ./patch-package-error.json.gz

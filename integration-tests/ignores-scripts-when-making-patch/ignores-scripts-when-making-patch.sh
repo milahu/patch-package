@@ -3,9 +3,10 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+stat node_modules/patch-package # force local install in runIntegrationTest.ts
+alias patch-package="npx patch-package"
 
-npx replace postinstall lol node_modules/naughty-package/postinstall.sh
+sed -i 's/postinstall/lol/g' node_modules/naughty-package/postinstall.sh
 
 echo "SNAPSHOT: the patch creation output should look normal"
 (>&2 echo "SNAPSHOT: there should be no stderr")

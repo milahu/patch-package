@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "SNAPSHOT: left-pad, lodash, and zfs apply"
 (>&2 echo "SNAPSHOT: underscore does not apply, left-pad warns")

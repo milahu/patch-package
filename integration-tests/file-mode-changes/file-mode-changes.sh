@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "check file permissions 1"
 ./assert-executable.js node_modules/prettier/bin-prettier.js
@@ -25,7 +25,7 @@ cat patches/prettier*
 echo "END SNAPSHOT"
 
 echo "reinstall node modules"
-npx shx rm -rf node_modules
+rm -rf node_modules
 yarn
 
 echo "check file permissions 3"

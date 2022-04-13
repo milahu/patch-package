@@ -3,7 +3,7 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 (>&2 echo "SNAPSHOT: patch-package fails when patch file is invalid")
 if patch-package

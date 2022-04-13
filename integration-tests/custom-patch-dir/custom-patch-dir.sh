@@ -3,10 +3,10 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+alias patch-package="npx patch-package"
 
 echo "modify left-pad"
-npx replace pad patch-package node_modules/left-pad/index.js
+sed -i 's/pad/patch-package/g' node_modules/left-pad/index.js
 
 mkdir my
 

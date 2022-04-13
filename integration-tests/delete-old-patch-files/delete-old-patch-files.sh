@@ -3,7 +3,8 @@ set -e
 
 echo "add patch-package"
 yarn add $1
-alias patch-package=./node_modules/.bin/patch-package
+stat node_modules/patch-package # force local install in runIntegrationTest.ts
+alias patch-package="npx patch-package"
 
 echo "apply patch-package"
 patch-package
