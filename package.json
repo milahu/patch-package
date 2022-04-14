@@ -1,6 +1,6 @@
 {
   "name": "@milahu/patch-package-with-pnpm-support",
-  "version": "6.4.9",
+  "version": "6.4.10",
   "description": "Fix broken node modules with no fuss",
   "main": "dist/index.js",
   "repository": "github:ds300/patch-package",
