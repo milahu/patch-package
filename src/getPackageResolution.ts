@@ -3,7 +3,7 @@ import { PackageDetails, getPatchDetailsFromCliString } from "./PackageDetails"
 import { PackageManager, detectPackageManager } from "./detectPackageManager"
 import { readFileSync, existsSync } from "fs-extra"
 import { parse as parseYarnLockFile } from "@yarnpkg/lockfile"
-import findWorkspaceRoot from "find-yarn-workspace-root"
+import findYarnWorkspaceRoot from "find-yarn-workspace-root"
 import { getPackageVersion } from "./getPackageVersion"
 //import { execSync } from "child_process"
 
@@ -23,7 +23,7 @@ export function getPackageResolution({
 }) {
 
   if (isDebug) {
-    console.log(`getPackageResolution:`)
+    console.log(`patch-package/getPackageResolution:`)
     console.dir({
       packageDetails, // dependency
       packageManager,
@@ -58,14 +58,23 @@ export function getPackageResolution({
   if (packageManager === "yarn") {
     let lockFilePath = "yarn.lock"
     if (!existsSync(lockFilePath)) {
-      const workspaceRoot = findWorkspaceRoot()
+      if (isDebug) {
+        console.log(`patch-package/getPackageResolution: yarn.lock is not here, trying findYarnWorkspaceRoot`)
+      }
+        const workspaceRoot = findYarnWorkspaceRoot()
       if (!workspaceRoot) {
         throw new Error("Can't find yarn.lock file")
+      }
+      if (isDebug) {
+        console.log(`patch-package/getPackageResolution: found yarn workspace: ${workspaceRoot}`)
       }
       lockFilePath = join(workspaceRoot, "yarn.lock")
     }
     if (!existsSync(lockFilePath)) {
       throw new Error("Can't find yarn.lock file")
+    }
+    if (isDebug) {
+      console.log(`patch-package/getPackageResolution: found yarn lockfile: ${lockFilePath}`)
     }
     const appLockFile = parseYarnLockFile(readFileSync(lockFilePath).toString())
     if (appLockFile.type !== "success") {
