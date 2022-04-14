@@ -10,6 +10,7 @@
     "noUnusedParameters": true,
     "inlineSourceMap": true,
     "noEmitOnError": false,
+    "noImplicitAny": false,
     "inlineSources": true
   },
   "include": ["typings/**/*.d.ts", "src/**/*.ts", "property-based-tests/**/*", "integration-tests/**/*"],
