@@ -1,6 +1,6 @@
 {
-  "name": "@milahu/patch-package-with-pnpm-support",
-  "version": "6.4.10",
+  "name": "@milahu/patch-package",
+  "version": "6.4.11",
   "description": "Fix broken node modules with no fuss",
   "main": "dist/index.js",
   "repository": "github:ds300/patch-package",
@@ -21,7 +21,7 @@
     "prepack": "rimraf dist/**/*.test.js",
     "test": "./run-tests.sh --runInBand",
     "publish": "npm publish --access public",
-    "prepare": "npm run build"
+    "prepare-zzzzzzz": "npm run build"
   },
   "husky": {
     "hooks": {
@@ -35,14 +35,23 @@
     ]
   },
   "jest": {
+    "extensionsToTreatAsEsm-zzzzzzzz": [
+      ".ts"
+    ],
+    "moduleNameMapper-zzzzz": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
     "globals": {
       "ts-jest": {
+        "useESM-zzzzzz": true,
+        "isolatedModules-zzzzzzzz": true,
         "diagnostics": false
       }
     },
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
+    "transformIgnorePatterns-zzz": [],
     "testRegex": "/(src|integration-tests|property-based-tests)/.+\\.test\\.ts$",
     "moduleFileExtensions": [
       "ts",
@@ -79,7 +88,7 @@
   "dependencies": {
     "@types/dashdash": "^1.14.1",
     "@yarnpkg/lockfile": "^1.1.0",
-    "chalk": "^5.0.1",
+    "chalk": "^2.4.2",
     "cross-spawn": "^7.0.3",
     "dashdash": "^2.0.0",
     "find-yarn-workspace-root": "^2.0.0",
@@ -90,7 +99,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.7",
     "shlex": "^2.1.0",
-    "slash": "^4.0.0",
+    "slash": "^2.0.0",
     "tmp": "^0.2.1"
   },
   "files": [
