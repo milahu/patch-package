@@ -26,15 +26,24 @@ const argv = dashdash.parse({ options: dashdashOptions });
 
 const packageNames = argv._args
 
+// globals are used in imported modules
+const isDebug = argv.debug
+//const isDebug = true
+global.patchPackageIsDebug = isDebug
+
+global.patchPackageIsVerbose = isDebug || argv.verbose
+
+const isTest = process.env.TEST_PATCH_PACKAGE == 'true'
+global.patchPackageIsTest = isTest
+
+const patchPackageVersion = isTest ? '0.0.0' : require(join(__dirname, "../package.json")).version
+global.patchPackageVersion = patchPackageVersion
+
 console.log(
   chalk.bold("patch-package"),
   // tslint:disable-next-line:no-var-requires
-  require(join(__dirname, "../package.json")).version,
+  patchPackageVersion,
 )
-
-// used in imported modules
-const isDebug = global.patchPackageIsDebug = argv.debug
-global.patchPackageIsVerbose = isDebug || argv.verbose
 
 if (isDebug) {
   console.log(`patch-package/index: argv:`)
@@ -47,7 +56,8 @@ import { makeRegExp } from "./makeRegExp"
 import { detectPackageManager } from "./detectPackageManager"
 import { normalize, sep } from "path"
 import slash from "slash"
-import isCi from "is-ci"
+
+const isCi = process.env.CI == "true"
 
 if (argv.version) {
   // noop
@@ -97,6 +107,14 @@ if (argv.version) {
     const reverse = argv.reverse
     // don't want to exit(1) on postinsall locally.
     // see https://github.com/ds300/patch-package/issues/86
+    // debug
+    if (isDebug) {
+      console.dir({
+        error_on_fail: argv.error_on_fail,
+        isCi,
+        NODE_ENV: process.env.NODE_ENV,
+      })
+    }
     const shouldExitWithError =
       argv.error_on_fail || isCi || process.env.NODE_ENV === "test"
     applyPatchesForApp({ appPath, reverse, patchDir, shouldExitWithError })

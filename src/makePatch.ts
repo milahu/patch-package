@@ -347,11 +347,7 @@ in the format <major>.<minor>.<patch>, for example: "${packageDetails.name}": "$
     // commit the package
     console.info(chalk.grey("•"), "Diffing your files with clean files")
     writeFileSync(join(tmpRepo.name, ".gitignore"), "!/node_modules\n\n")
-    git("init")
-    // TODO use env-vars for "git commit"
-    // GIT_{COMMITTER,AUTHOR}_{NAME,EMAIL}
-    git("config", "--local", "user.name", "patch-package")
-    git("config", "--local", "user.email", "patch@pack.age")
+    git("-c", "init.defaultBranch=main", "init")
 
     // remove ignored files first
     // use CLI options --exclude and --include
@@ -361,7 +357,7 @@ in the format <major>.<minor>.<patch>, for example: "${packageDetails.name}": "$
     if (isVerbose) {
       console.log(`git status:\n` + git("status").stdout.toString())
     }
-    git("commit", "--allow-empty", "-m", "init")
+    git("-c", "user.name=patch-package", "-c", "user.email=", "commit", "--allow-empty", "-m", "init")
 
     // replace package with user's version
     if (isVerbose) {

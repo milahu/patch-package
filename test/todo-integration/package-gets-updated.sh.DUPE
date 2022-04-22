@@ -1,0 +1,18 @@
+# TODO use npm_install and run patch-package manually -> patch_package
+# only run "npm install" when absolutely needed -> 1 or 2 tests
+
+echo "add patch-package to postinstall script"
+pkg_jq '.scripts.postinstall = "patch-package"'
+
+debug "npm install"
+npm install
+
+expect_ok -s "package was patched" grep patch_package node_modules/a/index.js
+
+expect_ok -s "warning: patch applied but version changed" npm add a@file:./a-1.0.1.tgz
+
+expect_ok -s "package was patched" grep patch_package node_modules/a/index.js
+
+expect_error -s "patch-package fails when the patch was not applied" npm add a@file:./a-2.0.0.tgz
+
+expect_error -s "package was not patched" grep patch_package node_modules/a/index.js

@@ -1,2 +1,0 @@
-module.exports = patch-package;
-function patch-package (str, len, ch) {

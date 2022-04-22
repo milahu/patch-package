@@ -1,0 +1,5 @@
+patch-package 0.0.0
+• Creating temporary folder
+• Installing pkg-with-postinstall@1.0.0 with npm
+• Diffing your files with clean files
+✔ Created file patches/pkg-with-postinstall+1.0.0.patch

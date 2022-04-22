@@ -1,0 +1,31 @@
+patch-package 0.0.0
+Applying patches...
+
+**ERROR** Failed to apply patch for package b at path
+  
+    node_modules/b
+
+  This error was caused because b has changed since you
+  made the patch file for it. This introduced conflicts with your patch,
+  just like a merge conflict in Git when separate incompatible changes are
+  made to the same piece of code.
+
+  Maybe this means your patch file is no longer necessary, in which case
+  hooray! Just delete it!
+
+  Otherwise, you need to generate a new patch file.
+
+  To generate a new one, just repeat the steps you made to generate the first
+  one.
+
+  i.e. manually make the appropriate file changes, then run 
+
+    patch-package b
+
+  Info:
+    Patch file: patches/b+1.0.0.patch
+    Patch was made for version: 1.0.0
+    Installed version: 2.0.0
+
+---
+patch-package finished with 1 error(s).

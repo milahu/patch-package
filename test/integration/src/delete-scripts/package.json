@@ -1,0 +1,11 @@
+{
+  "name": "delete-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "preinstall": "exit 1"
+  },
+  "dependencies": {
+    "a": "file:./a-1.0.0.tgz"
+  }
+}

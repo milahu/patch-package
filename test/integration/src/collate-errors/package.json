@@ -1,0 +1,10 @@
+{
+  "name": "collate-errors",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "a": "file:./a-1.0.1.tgz",
+    "b": "file:./b-2.0.0.tgz"
+  }
+}

@@ -1,1 +1,0 @@
-patches/lodash:4.17.11.patch

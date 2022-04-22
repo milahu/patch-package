@@ -1,3 +1,0 @@
-patch-package 0.0.0
-Applying patches...
-left-pad@1.1.1 ✔

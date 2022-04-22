@@ -1,8 +1,0 @@
-  // `len` is the `patch-package`'s length now
-  // doesn't need to patch-package
-  // `patch-package` starts with an empty string
-  var patch-package = '';
-    // add `ch` to `patch-package` if `len` is odd
-    if (len & 1) patch-package += ch;
-  // patch-package `str`!
-  return patch-package + str;

@@ -1,2 +1,0 @@
-// patch-package by: Brian Zengel <https://github.com/bczengel>,
-    patch-package WeakMap<K extends object, V> { }

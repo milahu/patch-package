@@ -1,0 +1,8 @@
+{
+  "name": "ignores-scripts-when-making-patch",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "pkg-with-postinstall": "file:./pkg-with-postinstall-1.0.0.tgz"
+  }
+}

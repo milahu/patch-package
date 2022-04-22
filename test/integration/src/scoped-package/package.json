@@ -1,0 +1,10 @@
+{
+  "name": "scoped-package",
+  "private": true,
+  "scripts": {
+    "prepare-zzzzzz": "patch-package"
+  },
+  "dependencies": {
+    "@types/a": "file:@types+a-1.0.0.tgz"
+  }
+}

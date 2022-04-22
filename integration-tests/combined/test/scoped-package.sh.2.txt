@@ -1,2 +1,0 @@
-import { patch-package } from "./index";
-export = patch-package;

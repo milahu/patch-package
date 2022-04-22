@@ -39,7 +39,7 @@ function commonFiles() {
 
 // workaround
 // https://github.com/tschaub/mock-fs/issues/234
-console.log('')
+console.log('(workaround for mock-fs: fix console)')
 
 describe('detectPackageManager', () => {
 

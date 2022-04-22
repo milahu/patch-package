@@ -1,0 +1,8 @@
+{
+  "name": "create-issue",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "a": "file:./a-1.0.0.tgz"
+  }
+}

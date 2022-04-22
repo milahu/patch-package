@@ -1,0 +1,17 @@
+patch-package 0.0.0
+Applying patches...
+
+**ERROR** Failed to apply patch for package a
+    
+  This happened because the patch file patches/a+1.0.0.patch could not be parsed.
+   
+  If you just upgraded patch-package, you can try running:
+  
+    patch -p1 -i patches/a+1.0.0.patch
+    npx patch-package a
+    
+  Otherwise, try manually creating the patch file again.
+  
+  If the problem persists, please submit a bug report:
+  
+    https://github.com/ds300/patch-package/issues/new?title=Patch+file+parse+error&body=%3CPlease+attach+the+patch+file+in+question%3E

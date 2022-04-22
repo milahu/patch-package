@@ -1,0 +1,11 @@
+{
+  "name": "pkg-with-postinstall",
+  "version": "1.0.0",
+  "main": "index.js",
+  "files": "*",
+  "type": "commonjs",
+  "scripts": {
+    "postinstall": "./postinstall.sh"
+  },
+  "license": "MIT"
+}

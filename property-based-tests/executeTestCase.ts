@@ -88,12 +88,12 @@ export function executeTestCase(testCase: TestCase) {
     prefix: "patch-package.test-property.",
   })
 
-  spawnSafeSync("git", ["init"], { cwd: tmpDir.name })
+  spawnSafeSync("git", ["-c", "init.defaultBranch=main", "init"], { cwd: tmpDir.name })
 
   writeFiles(tmpDir.name, testCase.cleanFiles)
 
   spawnSafeSync("git", ["add", "-A"], { cwd: tmpDir.name })
-  spawnSafeSync("git", ["commit", "--allow-empty", "-m", "blah"], {
+  spawnSafeSync("git", ["-c", "user.name=patch-package", "-c", "user.email=", "commit", "--allow-empty", "-m", "blah"], {
     cwd: tmpDir.name,
   })
   if (Object.keys(testCase.cleanFiles).length > 0) {

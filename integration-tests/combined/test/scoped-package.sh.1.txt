@@ -1,9 +1,0 @@
-patch-package 0.0.0
-• Creating temporary folder
-• Installing @types/lodash@4.14.120 with yarn
-• Diffing your files with clean files
-✔ Created file patches/@types+lodash+4.14.120.patch
-
-💡 @types/lodash is on GitHub! To draft an issue based on your patch run
-
-    yarn patch-package @types/lodash --create-issue

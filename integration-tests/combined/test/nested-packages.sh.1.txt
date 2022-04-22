@@ -1,9 +1,0 @@
-patch-package 0.0.0
-• Creating temporary folder
-• Installing strip-ansi@4.0.0 with yarn
-• Diffing your files with clean files
-✔ Created file patches/wrap-ansi++strip-ansi+4.0.0.patch
-
-💡 strip-ansi is on GitHub! To draft an issue based on your patch run
-
-    yarn patch-package wrap-ansi/strip-ansi --create-issue

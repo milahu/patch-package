@@ -1,0 +1,8 @@
+{
+  "name": "error-on-fail",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "b": "file:./b-2.0.0.tgz"
+  }
+}

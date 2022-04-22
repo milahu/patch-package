@@ -1,8 +1,0 @@
-  // `len` is the `yarn`'s length now
-  // doesn't need to yarn
-  // `yarn` starts with an empty string
-  var yarn = '';
-    // add `ch` to `yarn` if `len` is odd
-    if (len & 1) yarn += ch;
-  // yarn `str`!
-  return yarn + str;

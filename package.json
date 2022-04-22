@@ -1,5 +1,5 @@
 {
-  "name": "@milahu/patch-package",
+  "name": "patch-package",
   "version": "6.4.11",
   "description": "Fix broken node modules with no fuss",
   "main": "dist/index.js",
@@ -19,9 +19,8 @@
     "clean": "rimraf dist patch-package.test*.tgz",
     "format": "prettier --no-semi --write --trailing-comma=all src{/**,}/*.ts integration-tests{/**,}/*.ts property-based-tests{/**,}/*.ts",
     "prepack": "rimraf dist/**/*.test.js",
-    "test": "./run-tests.sh --runInBand",
-    "publish": "npm publish --access public",
-    "prepare-zzzzzzz": "npm run build"
+    "test": "./run-tests.sh",
+    "bt": "npm run build && npm run test"
   },
   "husky": {
     "hooks": {
@@ -35,24 +34,15 @@
     ]
   },
   "jest": {
-    "extensionsToTreatAsEsm-zzzzzzzz": [
-      ".ts"
-    ],
-    "moduleNameMapper-zzzzz": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    },
     "globals": {
       "ts-jest": {
-        "useESM-zzzzzz": true,
-        "isolatedModules-zzzzzzzz": true,
         "diagnostics": false
       }
     },
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
-    "transformIgnorePatterns-zzz": [],
-    "testRegex": "/(src|integration-tests|property-based-tests)/.+\\.test\\.ts$",
+    "testRegex": "/(src|property-based-tests)/.+\\.test\\.ts$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -66,6 +56,7 @@
     "@types/is-ci": "^3.0.0",
     "@types/jest": "^27.4.1",
     "@types/klaw-sync": "^6.0.1",
+    "@types/mock-fs": "^4.13.1",
     "@types/node": "^17.0.23",
     "@types/rimraf": "^3.0.2",
     "@types/semver": "^7.3.9",
@@ -77,6 +68,7 @@
     "jest-resolve": "^27.5.1",
     "js-yaml": "^4.1.0",
     "lint-staged": "^12.3.7",
+    "mock-fs": "^5.1.2",
     "np": "^7.6.1",
     "prettier": "^2.6.2",
     "randomstring": "^1.2.2",

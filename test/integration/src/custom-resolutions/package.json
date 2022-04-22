@@ -1,0 +1,11 @@
+{
+  "name": "custom-resolutions",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "a": "file:./a-1.0.0.tgz"
+  },
+  "resolutions": {
+    "b": "file:./b-1.0.0.tgz"
+  }
+}
