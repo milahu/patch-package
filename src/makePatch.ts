@@ -1,6 +1,5 @@
 import chalk from "chalk"
 import { join, dirname, resolve } from "./path"
-import { basename } from "path"
 import { spawnSafeSync } from "./spawnSafe"
 import { PackageManager } from "./detectPackageManager"
 import { removeIgnoredFiles } from "./filterFiles"
@@ -12,10 +11,6 @@ import {
   mkdirpSync,
   realpathSync,
   renameSync,
-  /*
-  lstatSync,
-  readlinkSync,
-  */
 } from "fs-extra"
 import { sync as rimraf } from "rimraf"
 import { copySync } from "fs-extra"
@@ -35,11 +30,12 @@ import {
   maybePrintIssueCreationPrompt,
   openIssueCreationLink,
 } from "./createIssue"
-import { quote as shlexQuote } from "shlex"
+import { spawnSync } from "child_process"
 
+// globals are set in src/index.ts
 const isVerbose = global.patchPackageIsVerbose
 const isDebug = global.patchPackageIsDebug
-const isTest = process.env.NODE_ENV == 'test'
+const patchPackageVersion = global.patchPackageVersion
 
 function printNoPackageFoundError(
   packageName: string,
@@ -331,12 +327,17 @@ in the format <major>.<minor>.<patch>, for example: "${packageDetails.name}": "$
       }
     }
 
-    const git = (...args: string[]) =>
-      spawnSafeSync("git", args, {
+    function git(...args: string[]) {
+      if (isDebug) {
+        const argsStr = JSON.stringify(["git", ...args])
+        console.log(`patch-package/makePatch: spawn: args = ${argsStr} + workdir = ${tmpRepo.name}`)
+      }
+      return spawnSafeSync("git", args, {
         cwd: tmpRepo.name,
         env: { ...process.env, HOME: tmpRepo.name },
         maxBuffer: 1024 * 1024 * 100,
       })
+    }
 
     // remove nested node_modules just to be safe
     rimraf(join(tmpRepoPackagePath, "node_modules"))
@@ -347,6 +348,8 @@ in the format <major>.<minor>.<patch>, for example: "${packageDetails.name}": "$
     console.info(chalk.grey("•"), "Diffing your files with clean files")
     writeFileSync(join(tmpRepo.name, ".gitignore"), "!/node_modules\n\n")
     git("init")
+    // TODO use env-vars for "git commit"
+    // GIT_{COMMITTER,AUTHOR}_{NAME,EMAIL}
     git("config", "--local", "user.name", "patch-package")
     git("config", "--local", "user.email", "patch@pack.age")
 
@@ -355,38 +358,83 @@ in the format <major>.<minor>.<patch>, for example: "${packageDetails.name}": "$
     removeIgnoredFiles(tmpRepoPackagePath, includePaths, excludePaths)
 
     git("add", "-f", packageDetails.path)
+    if (isVerbose) {
+      console.log(`git status:\n` + git("status").stdout.toString())
+    }
     git("commit", "--allow-empty", "-m", "init")
 
     // replace package with user's version
+    if (isVerbose) {
+      console.log(`patch-package/makePatch: remove all files in ${tmpRepoPackagePath}`)
+    }
     rimraf(tmpRepoPackagePath)
 
     if (isVerbose) {
-      console.log(
-        `patch-package/makePatch: copy ${realpathSync(
-          packagePath,
-        )} to ${tmpRepoPackagePath}`,
-      )
+      console.log(`patch-package/makePatch: git status:\n` + git("status").stdout.toString())
     }
 
     // pnpm installs packages as symlinks, copySync would copy only the symlink
+    // with pnpm, realpath resolves to ./node_modules/.pnpm/${name}@${version}
     const srcPath = realpathSync(packagePath)
+    if (isVerbose) {
+      console.log(
+        `patch-package/makePatch: copy ${srcPath} to ${tmpRepoPackagePath} + skip ${srcPath}/node_modules/`,
+      )
+    }
     copySync(srcPath, tmpRepoPackagePath, {
       filter: (path) => {
-        return !path.startsWith(srcPath + "/node_modules/")
+        const doCopy = !path.startsWith(srcPath + "/node_modules/")
+        if (isVerbose) {
+          if (doCopy) {
+            console.log(`patch-package/makePatch: copySync: copy file ${path}`)
+          }
+          else {
+            console.log(`patch-package/makePatch: copySync: skip file ${path}`)
+          }
+        }
+        return doCopy
       },
     })
 
+    if (isDebug) {
+      // list files
+      // NOTE this works only on linux
+      console.log(`patch-package/makePatch: files in srcPath = ${srcPath}`)
+      console.log(spawnSync('find', ['.'], { cwd: srcPath, encoding: 'utf8' }).stdout)
+      console.log(`patch-package/makePatch: files in tmpRepoPackagePath = ${tmpRepoPackagePath}`)
+      console.log(spawnSync('find', ['.'], { cwd: tmpRepoPackagePath, encoding: 'utf8' }).stdout)
+    }
+
     // remove nested node_modules just to be safe
     rimraf(join(tmpRepoPackagePath, "node_modules"))
+
     // remove .git just to be safe
+    // NOTE this removes ./node_modules/${dependencyName}/.git not ./.git
     rimraf(join(tmpRepoPackagePath, ".git"))
 
     // also remove ignored files like before
+    // for example, remove package.json
+    // TODO support patching package.json via semantic json diff
     // use CLI options --exclude and --include
+
+    if (isDebug) {
+      console.log(`patch-package/makePatch: removing ignored files in tmpRepoPackagePath = ${tmpRepoPackagePath}:`)
+    }
     removeIgnoredFiles(tmpRepoPackagePath, includePaths, excludePaths)
+
+    if (isDebug) {
+      // list files
+      // NOTE this works only on linux
+      console.log(`patch-package/makePatch: files in tmpRepoPackagePath = ${tmpRepoPackagePath}:`)
+      console.log(spawnSync('find', ['.', '-type', 'f'], { cwd: tmpRepoPackagePath, encoding: 'utf8' }).stdout)
+    }
 
     // stage all files
     git("add", "-f", packageDetails.path)
+
+    if (isVerbose) {
+      console.log(`patch-package/makePatch: git status:\n` + git("status").stdout.toString())
+    }
 
     const ignorePaths = ["package-lock.json", "pnpm-lock.yaml"]
 
@@ -473,44 +521,19 @@ in the format <major>.<minor>.<patch>, for example: "${packageDetails.name}": "$
       }
     })
 
-    const patchPackageVersion = require("../package.json").version
-
     // patchfiles are parsed in patch/parse.ts function parsePatchLines
     // -> header comments are ignored
     let diffHeader = ""
     diffHeader += `# generated by patch-package ${patchPackageVersion}\n`
     diffHeader += `#\n`
-    const prettyArgv = process.argv.slice()
-    if (prettyArgv[0].match(/node/)) {
-      prettyArgv[0] = "npx"
-    }
-    if (prettyArgv[1].match(/patch-package/)) {
-      prettyArgv[1] = "patch-package"
-    }
-    diffHeader += `# command:\n`
-    diffHeader += `#   ${prettyArgv.map((a) => shlexQuote(a)).join(" ")}\n`
-    diffHeader += `#\n`
-    diffHeader += `# declared package:\n`
-    // TODO rename resolvedVersion.version to declaredVersion
-    const declaredPackageStr = (
-      isTest ? (() => {
-        const v = resolvedVersion.version
-        const b = basename(v)
-        if (b != v) return `file:/mocked/path/to/${b}` // mock path // TODO keep the relative path? as declared in /package.json. see getPackageResolution "resolve relative file path"
-        return v
-      })() :
+    if (isDebug) {
       resolvedVersion.version
-    )
-    diffHeader += `#   ${packageDetails.name}: ${declaredPackageStr}\n`
-    /* redundant. this is visible from command, sample: npx patch-package wrap-ansi/string-width -> packageNames: wrap-ansi, string-width
-    if (packageDetails.packageNames.length > 1) {
-      diffHeader += `#\n`
-      diffHeader += `# package names:\n`
-      packageDetails.packageNames.forEach((packageName) => {
-        diffHeader += `#   ${packageName}\n`
-      })
     }
-    */
+    diffHeader += `# declared package:\n`
+    diffHeader += `#   ${packageDetails.name}: ${resolvedVersion.declaredVersion}\n`
+    // NOTE: we do *not* include the locked version from package-lock.json or yarn.lock or pnpm-lock.yaml or ...
+    // because patch-package should work with all package managers (should be manager-agnostic)
+    // users can pin versions in package.json
     diffHeader += `#\n`
 
     const patchFileName = createPatchFileName({

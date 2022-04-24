@@ -51,6 +51,7 @@ export function getPackageResolution({
       console.log(`patch-package/getPackageResolution: resolved filePath ${filePath}`)
     }
     return {
+      declaredVersion,
       version: `file:${filePath}`,
     }
   }
@@ -91,9 +92,7 @@ export function getPackageResolution({
         v.version === installedVersion,
     )
 
-    const resolutions = entries.map(([_, v]) => {
-      return v.resolved
-    })
+    const resolutions = entries.map(([_, v]) => v.resolved)
 
     if (resolutions.length === 0) {
       throw new Error(
@@ -105,11 +104,17 @@ export function getPackageResolution({
       console.warn(
         `Ambigious lockfile entries for ${packageDetails.pathSpecifier}. Using version ${installedVersion}`,
       )
-      return { version: installedVersion }
+      return {
+        declaredVersion,
+        version: installedVersion,
+      }
     }
 
     if (resolutions[0]) {
-      return { version: resolutions[0] }
+      return {
+        declaredVersion,
+        version: resolutions[0]
+      }
     }
 
     const resolution = entries[0][0].slice(packageDetails.name.length + 1)
@@ -117,14 +122,21 @@ export function getPackageResolution({
     // resolve relative file path
     if (resolution.startsWith("file:.")) {
       return {
+        declaredVersion,
         version: `file:${resolve(appPath, resolution.slice("file:".length))}`,
       }
     }
-    return { version: resolution }
+    return {
+      declaredVersion,
+      version: resolution,
+    }
   } else if (packageManager === "pnpm") {
     // WORKAROUND for pnpm bug? pnpm-lock.yaml says version 1.2.3 for linked packages, not link:../../path/to/package
     // TODO validate: declaredVersion must not be wildcard
-    return { version: declaredVersion }
+    return {
+      declaredVersion,
+      version: declaredVersion,
+    }
 
     // TODO dont use lockfiles at all?
     // package versions should be pinned in /package.json, so it works with all package managers at all times
@@ -233,7 +245,10 @@ export function getPackageResolution({
         entry.dependencies && packageDetails.name in entry.dependencies,
     )
     const pkg = relevantStackEntry.dependencies[packageDetails.name]
-    return { version: pkg.resolved || pkg.from || pkg.version }
+    return {
+      declaredVersion,
+      version: pkg.resolved || pkg.from || pkg.version,
+    }
   }
 }
 
