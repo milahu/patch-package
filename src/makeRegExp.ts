@@ -6,22 +6,24 @@ export const makeRegExp = (
   defaultValue: RegExp,
   caseSensitive: boolean,
 ): RegExp => {
-  if (!reString) {
+  if (reString == undefined) {
     return defaultValue
-  } else {
-    try {
-      return new RegExp(reString, caseSensitive ? "" : "i")
-    } catch (_) {
-      console.error(`${chalk.red.bold("***ERROR***")}
+  }
+  if (reString == "") {
+    // never match
+    return /^$/
+  }
+  try {
+    return new RegExp(reString, caseSensitive ? "" : "i")
+  } catch (_) {
+    console.error(`${chalk.red.bold("***ERROR***")}
 Invalid format for option --${name}
 
-  Unable to convert the string ${JSON.stringify(
-    reString,
-  )} to a regular expression.
+Unable to convert the string ${JSON.stringify(
+  reString,
+)} to a regular expression.
 `)
-
-      process.exit(1)
-      return /unreachable/
-    }
+    process.exit(1)
+    return /unreachable/
   }
 }
