@@ -28,7 +28,7 @@ function parseNameAndVersion(
     }
     case 2: {
       const [nameOrScope, versionOrName] = parts
-      if (versionOrName.match(/^\d+/)) {
+      if (versionOrName.match(/^[^~]\d+/)) {
         return {
           name: nameOrScope,
           version: versionOrName,
