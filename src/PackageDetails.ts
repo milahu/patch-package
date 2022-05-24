@@ -28,13 +28,13 @@ function parseNameAndVersion(
     }
     case 2: {
       const [nameOrScope, versionOrName] = parts
-      if (versionOrName.match(/^[^~]\d+/)) {
-        return {
-          name: nameOrScope,
-          version: versionOrName,
-        }
+      if (nameOrScope[0] == "@") {
+        return { name: `${nameOrScope}/${versionOrName}` }
       }
-      return { name: `${nameOrScope}/${versionOrName}` }
+      return {
+        name: nameOrScope,
+        version: versionOrName,
+      }
     }
     case 3: {
       const [scope, name, version] = parts
