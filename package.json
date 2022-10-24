@@ -4,6 +4,7 @@
   "description": "Fix broken node modules with no fuss",
   "main": "dist/index.js",
   "repository": "github:milahu/patch-package",
+  "homepage": "https://github.com/milahu/patch-package",
   "author": "David Sheldrick",
   "license": "MIT",
   "engines": {
